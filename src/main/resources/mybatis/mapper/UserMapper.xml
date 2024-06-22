@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.UserMapper">
+    <!--用户注册+验证码登录-->
+    <insert id="addUser" parameterType="com.nyist.model.User">
+        insert into user(username,password,salt,space,avatar,newavatarname,nickname,regdate)
+        values(#{username},#{password},#{salt},#{space},#{avatar},#{newavatarname},#{nickname},#{regdate})
+    </insert>
+    <!--注册查重-->
+    <select id="findUserName" parameterType="com.nyist.model.User" resultType="Integer">
+        select count(id) from user where username = #{username}
+    </select>
+    <!--获取id-->
+    <select id="findId" parameterType="java.lang.String" resultType="Integer">
+        select id from user where username = #{username}
+    </select>
+    <!--用户登录(账号密码登录)-->
+    <select id="findUserByUserName" parameterType="com.nyist.model.User" resultType="java.util.LinkedHashMap">
+        select username,password,salt from user where username = #{username}
+    </select>
+    <!--用户修改信息-->
+    <!--获取头像和空间-->
+    <select id="findIndexInfo" parameterType="Integer" resultType="com.nyist.model.User">
+        select sum(myfile.size) as usespace,space,avatar,newavatarname,nickname from user,myfile where user.id = #{id}
+        and user.id = myfile.user_id
+    </select>
+    <!--获取文件数量-->
+    <select id="findUserFileCounts" parameterType="Integer" resultType="int">
+        select count(id) from myfile where user_id = #{user_id}
+    </select>
+    <!--上传头像-->
+    <update id="uploadAvatar" parameterType="com.nyist.model.User">
+        update user set newavatarname = #{newavatarname} where id = #{id}
+    </update>
+    <!--获取原来的头像信息进行替换-->
+    <select id="findOldAvatar" parameterType="Integer" resultType="com.nyist.model.User">
+        select newavatarname,avatar from user where id = #{id}
+    </select>
+    <!--查询个人信息-->
+    <select id="findInfoById" parameterType="Integer" resultType="com.nyist.model.User">
+        select nickname,username,space,sum(myfile.size) as usespace,count(myfile.id) as filecounts,regdate from user,myfile
+        where user.id = #{id} and user.id = myfile.user_id and myfile.isrecycle != 1
+    </select>
+    <!--修改个人信息-->
+    <update id="setPersonInfo" parameterType="com.nyist.model.User">
+        update user
+        <set>
+            <if test="nickname!=null and nickname!=''">
+                nickname = #{nickname},
+            </if>
+            <if test="password!=null and password!=''">
+                password = #{password},
+            </if>
+            <if test="salt!=null and salt!=''">
+                salt = #{salt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

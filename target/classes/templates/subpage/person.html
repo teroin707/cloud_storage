@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/person.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<div id="pertou" class="layui-upload layui-anim layui-anim-fadein">
+    <button type="button" class="layui-btn" id="test1">上传头像</button>
+    <div class="layui-upload-list">
+        <img class="layui-upload-img" width="80" height="80" id="demo1">
+        <p id="demoText"></p>
+    </div>
+    <div style="width: 80px;">
+        <div class="layui-progress layui-progress-big" lay-showpercent="yes" lay-filter="demo">
+            <div class="layui-progress-bar" lay-percent=""></div>
+        </div>
+    </div>
+    <div id="perinfo">
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>昵称：</lable><input type="text" id="nickname" name="nickname" oninput="replace(this)" th:value="${userInfo.getNickname()}">
+        <div class="lines"></div>
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>用户名：</lable><span id="email" th:text="${userInfo.getUsername()}"></span>
+        <div class="lines"></div>
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>修改密码：</lable><input id="password" name="password" oninput="replace(this)" type="password">
+        <div id="setlines" class="lines"></div>
+        <input id="code" name="code" oninput="replace(this)" type="text"><button id="getcode">获取验证码</button>
+        <div id="lines" class="lines"></div>
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>网盘空间：</lable><span th:text='${userInfo.getSpace()+"GB"}'></span>
+        <div class="lines"></div>
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>使用空间：</lable><span th:text='${usespace}'></span>
+        <div class="lines"></div>
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>总文件数：</lable><span th:text='${userInfo.getFilecounts()+"个"}'></span>
+        <div class="lines"></div>
+        <i class="layui-icon layui-icon-triangle-r"></i>
+        <lable>注册日期：</lable><span th:text="${userInfo.getRegdate()}"></span>
+        <div class="lines"></div>
+        <input id="subinfo" class="layui-btn" type="button" value="立即保存">
+    </div>
+</div>
+<script th:src="@{/js/jquery-3.6.0.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/ajaxperson.js}"></script>
+<script th:src="@{/js/uploadui.js}"></script>
+</body>
+</html>

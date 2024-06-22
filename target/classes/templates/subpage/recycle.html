@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>回收站</title>
+    <link rel="stylesheet" th:href="@{/css/subpage.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+</head>
+<body class="layui-anim layui-anim-fadein">
+<div id="curtain"></div>
+<!--删除提示-->
+<div id="removetip" class="layui-anim layui-anim-down">
+    <p class="outtitle">删除文件</p>
+    <p class="outtip">删除的文档暂不支持找回,是否确认彻底删除?</p>
+    <div class="btnchoose">
+        <a onclick="cancelout()" id="cancelout">取消</a>
+        <a lay-active="e3" onclick="yesremove()" id="yesremove">确认</a>
+    </div>
+</div>
+<!--    顶部导航-->
+<div class="eyebrows">
+    <div class="toptitle">回收站</div>
+</div>
+
+<!--    顶部提示-->
+<div class="infoshow">
+    <div class="showcount">
+        <input id="allchoose" onclick="allchoose()" type="checkbox" name="" value="" title="写作">
+        <span>全</span>
+        <span>选</span>
+    </div>
+</div>
+<!--    底部弹出导航-->
+<div id="downlist" class="downlist layui-anim layui-anim-up" style="width: 175px;padding-left: 0px">
+    <div style="width: 150px">
+        <a id="recoverall" style="margin-left: 30px"><i class="layui-icon layui-icon-refresh"></i></a>
+        <a onclick="removeforever01()"><i class="layui-icon layui-icon-delete"></i></a>
+        <a onclick="closeallchoose()"><i class="layui-icon layui-icon-close-fill"></i></a>
+    </div>
+</div>
+<!--    ============================================-->
+<div id="nonullshow" class="nonullshow" th:style="'display:'+(${files.size()} != 0 ? 'block' : 'none')">
+    <div th:each="file:${files}" class="files layui-anim layui-anim-fadein">
+        <div class="rightsub-list layui-anim layui-anim-scale" style="display: none;height: 83px">
+            <ul>
+                <li style="margin-top: 3px"><a href="">恢复</a></li>
+                <li onclick="removeforever(0)"><a style="color: #FF6F66">彻底删除</a></li>
+            </ul>
+        </div>
+        <i class="leftsub" style="display: none">
+            <input class="chooseone" onclick="chooseone()" type="checkbox">
+            <input type="text" style="display: none" th:value="${file.getId()}">
+        </i>
+        <i class="rightsub layui-icon layui-icon-more" style="display: none"></i>
+
+        <img th:src='@{${"/icon/"+file.getIcon()+".png"}}' height="90" width="90"/>
+        <p th:text="${file.getOldfilename()}"></p>
+        <span class="datatip" th:text="${file.getChangetime()}"></span>
+    </div>
+</div>
+<!--    =================================================-->
+<div class="nullshow" th:style="'display:'+(${files.size()} != 0 ? 'none' : 'block')">
+    <ul>
+        <li id="add-folder01" style="opacity: 0">
+            <div>上传文件</div>
+            <p><img th:src="@{/img/createfolder.png}" height="72" width="72"/></p>
+        </li>
+        <li style="margin-left: 28px;">
+            <div>空空如也</div>
+            <p><img th:src="@{/img/uploadfile.png}" height="72" width="72"/></p>
+        </li>
+        <li style="margin-left: 28px;opacity: 0">
+            <div>欢迎使用</div>
+            <p><img th:src="@{/img/uploadfolder.png}" height="72" width="72"/></p>
+        </li>
+    </ul>
+</div>
+<script th:src="@{/js/jquery-3.6.0.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/recycle.js}"></script>
+
+</body>
+</html>

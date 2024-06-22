@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyist.dao.MyfileMapper">
+    <!--上传文件-->
+    <insert id="uploadFiles" parameterType="com.nyist.model.Myfile">
+        insert into myfile(oldfilename,newfilename,ext,path,size,type,isimg,downcounts,
+        uploadtime,changetime,isrecycle,user_id)
+        values(#{oldfilename},#{newfilename},#{ext},#{path},#{size},#{type},#{isimg},
+        0,#{uploadtime},#{changetime},0,#{user_id})
+    </insert>
+    <!--获取上传文件总大小-->
+    <select id="findUseSpace" parameterType="Integer" resultType="float">
+        select sum(size) as usespace from myfile where user_id = #{user_id}
+    </select>
+    <!--判断myfile表是否有数据-->
+    <select id="findIdCounts" parameterType="Integer" resultType="int">
+        select count(id) from myfile where user_id = #{user_id}
+    </select>
+    <!--获取所有文件-->
+    <select id="findAllFiles" parameterType="Integer" resultType="com.nyist.model.Myfile">
+        select * from myfile where user_id = #{id} and isrecycle != 1 order by uploadtime desc
+    </select>
+    <!-- 根据id获取单个文件-->
+    <select id="findFileById" parameterType="Integer" resultType="com.nyist.model.Myfile">
+        select oldfilename,newfilename,path from myfile where id = #{id}
+    </select>
+    <!--修改文件的下载次数-->
+    <update id="setDownLoadCounts" parameterType="Integer">
+        update myfile set downcounts = downcounts+1 where id = #{id}
+    </update>
+    <!--回收文件-->
+    <update id="setRecycles" parameterType="Integer">
+        update myfile set isrecycle = 1 where id = #{id}
+    </update>
+    <!--恢复文件-->
+    <update id="recoverAllFiles" parameterType="Integer">
+        update myfile set isrecycle = 0 where id = #{id}
+    </update>
+    <!--根据条件查找文件-->
+    <select id="findFilesByKey" parameterType="com.nyist.model.Myfile" resultType="com.nyist.model.Myfile">
+        select * from myfile where user_id = #{user_id} and isrecycle != 1
+        <if test="oldfilename != null and oldfilename != ''">
+            and oldfilename  like concat('%',#{oldfilename},'%')
+        </if>
+        <if test="type != null and type != ''">
+            and type like concat('%',#{type},'%')
+        </if>
+        order by ${sort} ${sortway}
+    </select>
+
+    <!--获取所有图片视频-->
+    <select id="findAllImages" parameterType="com.nyist.model.Myfile" resultType="com.nyist.model.Myfile">
+        select * from myfile where user_id = #{user_id} and isimg = 1 and isrecycle != 1 order by ${sort} ${sortway}
+    </select>
+    <!--获取所有回收站文件-->
+    <select id="findAllRecycles" parameterType="Integer" resultType="com.nyist.model.Myfile">
+        select * from myfile where user_id = #{user_id} and isrecycle = 1
+    </select>
+    <!--永久删除文件-->
+    <delete id="deleteAllFiles" parameterType="Integer">
+        delete from myfile where id = #{id}
+    </delete>
+</mapper>
