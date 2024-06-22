@@ -680,32 +680,3 @@ Layui框架中的`upload`、`element`和`layer`三个模块来实现文件上传
   > });
   > ```
   >
-  > 
-
-### 三、效果展示（部分）
-
-#### 1、登陆界面
-
-![image-20240622143812450](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622143812450.png)
-
-#### 2、文件
-
-![image-20240622144205487](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144205487.png)
-
-![image-20240622144227895](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144227895.png)
-
-![image-20240622144254932](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144254932.png)
-
-![image-20240622144332254](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144332254.png)
-
-#### 3、相册
-
-![image-20240622144449196](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144449196.png)
-
-#### 4、回收站
-
-![image-20240622144507963](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144507963.png)
-
-#### 5、主页
-
-![image-20240622144556199](C:\Users\teroin\AppData\Roaming\Typora\typora-user-images\image-20240622144556199.png)
